@@ -15,8 +15,8 @@ header section {
 
 .color {
     display: inline-block;
-    height: 100px;
-    width: 100px;
+    height: 80px;
+    width: 80px;
     border: 1px black solid;
 }
 
