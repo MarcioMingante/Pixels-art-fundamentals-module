@@ -26,6 +26,7 @@ for (let indexHeight = 0; indexHeight < 5; indexHeight += 1) {
     gridPixels.style.height = '40px';
     gridPixels.style.width = '40px';
     gridPixels.style.border = '1px black solid';
+    gridPixels.style.marginTop = '-4px';
     gridPixels.style.display = 'inline-block';
     grid.appendChild(gridPixels);
   }
@@ -65,17 +66,12 @@ for (let index = 0; index < pixelSelector.length; index += 1) {
 }
 
 // Cria botão que limpa as cores já pintadas
-// Cria "btn"
-// Adiciona id "clear-board"
-// Entre paleta e grid
-// Inner text "limpar"
-// Todos os "pixels" em "white"
 
 const header = document.body.querySelector('header');
 
 const buttons = document.createElement('div');
 buttons.style.textAlign = 'center';
-buttons.style.marginBottom = '5px';
+buttons.style.marginBottom = '8px';
 header.appendChild(buttons);
 
 const clearButton = document.createElement('button');
@@ -89,5 +85,34 @@ resetGrid.addEventListener('click', () => {
     const paintedPixels = document.getElementsByClassName('pixel');
     for (let index = 0; index < paintedPixels.length; index += 1) {
         paintedPixels[index].style.backgroundColor = 'white';
+    }
+});
+
+// Cria botão de cores aleatorias
+// Adiciona id "button-random-color"
+// Innertext "Cores aleatórias"
+// cores geradas aleatóriamente
+
+const randomColors = document.createElement('button');
+randomColors.id = 'button-random-color';
+randomColors.innerText = 'Cores aleatórias';
+randomColors.style.marginLeft = '5px';
+buttons.append(randomColors);
+
+const randomizeColors = document.getElementById('button-random-color');
+
+const randomizeRGB = () => {
+    const mathematics = [];
+
+    for (let index = 0; index < 3; index += 1) {
+        const number = Math.floor(Math.random() * 255);
+        mathematics.push(number);
+    }
+    return `rgb(${mathematics[0]},${mathematics[1]},${mathematics[2]})`;
+};
+
+randomizeColors.addEventListener('click', () => {
+    for (let index = 0; index < paletColors.length; index += 1) {
+        paletColors[index].style.backgroundColor = randomizeRGB();
     }
 });
