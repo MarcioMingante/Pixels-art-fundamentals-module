@@ -1,37 +1,37 @@
 * {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
 }
 
 header h1 {
-    text-align: center;
-    margin-top: 40px;
+  text-align: center;
+  margin-top: 40px;
 }
 
 header section {
-    margin-top: 15px;
-    text-align: center;
+  margin-top: 15px;
+  text-align: center;
 }
 
 .color {
-    display: inline-block;
-    height: 80px;
-    width: 80px;
-    border: 1px black solid;
+  display: inline-block;
+  height: 80px;
+  width: 80px;
+  border: 1px black solid;
 }
 
 .red {
-    background-color: red;
+  background-color: red;
 }
 
 .green {
-    background-color: green;
+  background-color: green;
 }
 
 .blue {
-    background-color: blue;
+  background-color: blue;
 }
 
 .black {
-    background-color: black;
+  background-color: black;
 }
