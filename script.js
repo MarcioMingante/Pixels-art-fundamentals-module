@@ -12,6 +12,11 @@ paletColors[3].style.backgroundColor = 'black';
 const grid = document.createElement('section');
 grid.id = 'pixel-board';
 grid.style.textAlign = 'center';
+grid.style.width = '210px';
+grid.style.margin = 'auto';
+grid.style.marginBottom = '0px';
+grid.style.marginTop = '0px';
+grid.style.padding = '0px';
 
 for (let indexHeight = 0; indexHeight < 5; indexHeight += 1) {
   for (let indexWidth = 0; indexWidth < 5; indexWidth += 1) {
@@ -24,8 +29,6 @@ for (let indexHeight = 0; indexHeight < 5; indexHeight += 1) {
     gridPixels.style.display = 'inline-block';
     grid.appendChild(gridPixels);
   }
-  const nextLine = document.createElement('br');
-  grid.appendChild(nextLine);
 }
 
 document.body.appendChild(grid);
@@ -60,3 +63,31 @@ for (let index = 0; index < pixelSelector.length; index += 1) {
       }
     });
 }
+
+// Cria botão que limpa as cores já pintadas
+// Cria "btn"
+// Adiciona id "clear-board"
+// Entre paleta e grid
+// Inner text "limpar"
+// Todos os "pixels" em "white"
+
+const header = document.body.querySelector('header');
+
+const buttons = document.createElement('div');
+buttons.style.textAlign = 'center';
+buttons.style.marginBottom = '5px';
+header.appendChild(buttons);
+
+const clearButton = document.createElement('button');
+clearButton.innerText = 'Limpar';
+clearButton.id = 'clear-board';
+buttons.appendChild(clearButton);
+
+const resetGrid = document.getElementById('clear-board');
+
+resetGrid.addEventListener('click', () => {
+    const paintedPixels = document.getElementsByClassName('pixel');
+    for (let index = 0; index < paintedPixels.length; index += 1) {
+        paintedPixels[index].style.backgroundColor = 'white';
+    }
+});
