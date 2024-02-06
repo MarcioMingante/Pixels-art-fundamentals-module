@@ -1,3 +1,12 @@
+// Adiciona cores a paleta
+
+const paletColors = document.querySelectorAll('.color');
+
+paletColors[0].style.backgroundColor = 'red';
+paletColors[1].style.backgroundColor = 'green';
+paletColors[2].style.backgroundColor = 'blue';
+paletColors[3].style.backgroundColor = 'black';
+
 // Criação da "grade"
 
 const grid = document.createElement('section');
@@ -22,18 +31,32 @@ for (let indexHeight = 0; indexHeight < 5; indexHeight += 1) {
 document.body.appendChild(grid);
 
 // Função para selecionar a cor
-// Apenas uma pode ser selecionada por vez
-// Selecionada deve er a classe "selected"
-// Os elementos "color" que deve receber a classe "selected"
 
 const color = document.querySelectorAll('.color');
 
 for (let index = 0; index < color.length; index += 1) {
-    color[index].addEventListener('click', () => {
-        const selectedColor = document.querySelector('.selected');
-        if (selectedColor) {
-            selectedColor.classList.remove('selected');
-        }
-        color[index].classList.add('selected');
-    });  
+  color[index].addEventListener('click', (event) => {
+    const selectedColor = document.querySelector('.selected');
+    if (selectedColor) {
+      selectedColor.classList.remove('selected');
+      }
+    event.target.classList.add('selected');
+     });
+}
+
+// Alterar cor dos pixels selecionados
+// Capturar dados da cor selecionada
+// Identificar o pixel especifico
+// Adicionar cor selecionada ao pixel selecionado
+
+const pixelSelector = document.querySelectorAll('.pixel');
+
+for (let index = 0; index < pixelSelector.length; index += 1) {
+    pixelSelector[index].addEventListener('click', (event) => {
+      const selectedColor = document.querySelector('.selected');
+      const currentColor = selectedColor.style.backgroundColor;
+      if (selectedColor) {
+        event.target.style.backgroundColor = currentColor;
+      }
+    });
 }
