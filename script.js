@@ -12,13 +12,13 @@ paletColors[3].style.backgroundColor = 'black';
 const grid = document.createElement('section');
 
 const firstGrid = () => {
-    grid.id = 'pixel-board';
-    grid.style.textAlign = 'center';
-    grid.style.width = '210px';
-    grid.style.margin = 'auto';
-    grid.style.marginBottom = '0px';
-    grid.style.marginTop = '0px';
-    grid.style.padding = '0px';
+  grid.id = 'pixel-board';
+  grid.style.textAlign = 'center';
+  grid.style.width = '210px';
+  grid.style.margin = 'auto';
+  grid.style.marginBottom = '0px';
+  grid.style.marginTop = '0px';
+  grid.style.padding = '0px';
 };
 
 firstGrid();
@@ -26,36 +26,36 @@ firstGrid();
 // CRIA O BOARD
 
 const gridValues = (number) => {
-    for (let indexHeight = 0; indexHeight < number; indexHeight += 1) {
-        for (let indexWidth = 0; indexWidth < number; indexWidth += 1) {
-            const gridPixels = document.createElement('div');
-            grid.style.width = `${42 * number}px`;
-            gridPixels.classList = 'pixel';
-            gridPixels.style.backgroundColor = 'white';
-            gridPixels.style.height = '40px';
-            gridPixels.style.width = '40px';
-            gridPixels.style.border = '1px black solid';
-            gridPixels.style.marginTop = '-4px';
-            gridPixels.style.display = 'inline-block';
-            grid.appendChild(gridPixels);
-        }
+  for (let indexHeight = 0; indexHeight < number; indexHeight += 1) {
+    for (let indexWidth = 0; indexWidth < number; indexWidth += 1) {
+      const gridPixels = document.createElement('div');
+      grid.style.width = `${42 * number}px`;
+      gridPixels.classList = 'pixel';
+      gridPixels.style.backgroundColor = 'white';
+      gridPixels.style.height = '40px';
+      gridPixels.style.width = '40px';
+      gridPixels.style.border = '1px black solid';
+      gridPixels.style.marginTop = '-4px';
+      gridPixels.style.display = 'inline-block';
+      grid.appendChild(gridPixels);
     }
-    document.body.appendChild(grid);
+  }
+  document.body.appendChild(grid);
 };
 
 const saveLocalStorageGrid = () => {
-    if (localStorage.getItem('lastGrid')) {
-        grid.style.width = localStorage.getItem('lastGrid');
-    }
+  if (localStorage.getItem('lastGrid')) {
+    grid.style.width = localStorage.getItem('lastGrid');
+  }
 };
 
 const saveLocalStorageValues = () => {
-    if (localStorage.getItem('lastGridValues')) {
-        gridValues();
-        gridValues(localStorage.getItem('lastGridValues'));
-    } else {
-        gridValues(5);
-    }
+  if (localStorage.getItem('lastGridValues')) {
+    gridValues();
+    gridValues(localStorage.getItem('lastGridValues'));
+  } else {
+    gridValues(5);
+  }
 };
 
 // localStorage.setItem('lastGrid', grid.style.width)
@@ -65,9 +65,9 @@ saveLocalStorageValues();
 saveLocalStorageGrid();
 
 const saveLocalStorageDrawing = () => {
-    if (localStorage.getItem('drawing')) {
-        grid.innerHTML = localStorage.getItem('drawing');
-    }
+  if (localStorage.getItem('drawing')) {
+    grid.innerHTML = localStorage.getItem('drawing');
+  }
 };
 
 saveLocalStorageDrawing();
@@ -75,16 +75,16 @@ saveLocalStorageDrawing();
 // FUNÇÃO PARA SELECIONAR COR
 
 const colorSelector = () => {
-    const color = document.querySelectorAll('.color');
-    for (let index = 0; index < color.length; index += 1) {
-        color[index].addEventListener('click', (event) => {
-            const selectedColor = document.querySelector('.selected');
-        if (selectedColor) {
-            selectedColor.classList.remove('selected');
-          }
-          event.target.classList.add('selected');
-         });
-    }
+  const color = document.querySelectorAll('.color');
+  for (let index = 0; index < color.length; index += 1) {
+    color[index].addEventListener('click', (event) => {
+      const selectedColor = document.querySelector('.selected');
+      if (selectedColor) {
+        selectedColor.classList.remove('selected');
+      }
+      event.target.classList.add('selected');
+    });
+  }
 };
 
 colorSelector();
@@ -92,18 +92,18 @@ colorSelector();
 // ALTERA A COR DOS PIXELS SELECIONADOS
 
 const paintPixel = () => {
-    const pixelSelector = document.querySelectorAll('.pixel');
-    for (let index = 0; index < pixelSelector.length; index += 1) {
-        pixelSelector[index].addEventListener('click', (event) => {
-          const { target } = event;
-          const selectedColor = document.querySelector('.selected');
-          const currentColor = selectedColor.style.backgroundColor;
-          if (selectedColor) {
-              target.style.backgroundColor = currentColor;
-              localStorage.setItem('drawing', grid.innerHTML);
-            }
-        });
-    }
+  const pixelSelector = document.querySelectorAll('.pixel');
+  for (let index = 0; index < pixelSelector.length; index += 1) {
+    pixelSelector[index].addEventListener('click', (event) => {
+      const { target } = event;
+      const selectedColor = document.querySelector('.selected');
+      const currentColor = selectedColor.style.backgroundColor;
+      if (selectedColor) {
+        target.style.backgroundColor = currentColor;
+        localStorage.setItem('drawing', grid.innerHTML);
+      }
+    });
+  }
 };
 
 paintPixel();
@@ -129,11 +129,11 @@ buttons.appendChild(clearButton);
 const resetGrid = document.getElementById('clear-board');
 
 resetGrid.addEventListener('click', () => {
-    const paintedPixels = document.getElementsByClassName('pixel');
-    for (let index = 0; index < paintedPixels.length; index += 1) {
-        paintedPixels[index].style.backgroundColor = 'white';
-    }
-    localStorage.setItem('drawing', grid.innerHTML);
+  const paintedPixels = document.getElementsByClassName('pixel');
+  for (let index = 0; index < paintedPixels.length; index += 1) {
+    paintedPixels[index].style.backgroundColor = 'white';
+  }
+  localStorage.setItem('drawing', grid.innerHTML);
 });
 
 // Cria botão de cores aleatorias
@@ -147,19 +147,19 @@ buttons.append(randomColors);
 const randomizeColors = document.getElementById('button-random-color');
 
 const randomizeRGB = () => {
-    const mathematics = [];
+  const mathematics = [];
 
-    for (let index = 0; index < 3; index += 1) {
-        const number = Math.floor(Math.random() * 255);
-        mathematics.push(number);
-    }
-    return `rgb(${mathematics[0]},${mathematics[1]},${mathematics[2]})`;
+  for (let index = 0; index < 3; index += 1) {
+    const number = Math.floor(Math.random() * 255);
+    mathematics.push(number);
+  }
+  return `rgb(${mathematics[0]},${mathematics[1]},${mathematics[2]})`;
 };
 
 randomizeColors.addEventListener('click', () => {
-    for (let index = 0; index < paletColors.length; index += 1) {
-        paletColors[index].style.backgroundColor = randomizeRGB();
-    }
+  for (let index = 0; index < paletColors.length; index += 1) {
+    paletColors[index].style.backgroundColor = randomizeRGB();
+  }
 });
 
 // Adiciona o desenho no local storage
@@ -185,38 +185,38 @@ gridInfo.appendChild(applyGridSize);
 const generateBoard = document.getElementById('generate-board');
 
 const verifyInputNumber = (currentNumber) => {
-    if (currentNumber === '0') {
-        window.alert('Board inválido!');
-    }
+  if (currentNumber === '0') {
+    window.alert('Board inválido!');
+  }
 
-    if (currentNumber < 5) {
-        gridValues(5);
-        localStorage.setItem('lastGridValues', '5');
-    } else if (currentNumber > 50) {
-        gridValues(50);
-        localStorage.setItem('lastGridValues', '50');
-    } else {
-        gridValues(currentNumber);
-        localStorage.setItem('lastGridValues', currentNumber);
-    }
+  if (currentNumber < 5) {
+    gridValues(5);
+    localStorage.setItem('lastGridValues', '5');
+  } else if (currentNumber > 50) {
+    gridValues(50);
+    localStorage.setItem('lastGridValues', '50');
+  } else {
+    gridValues(currentNumber);
+    localStorage.setItem('lastGridValues', currentNumber);
+  }
 };
 
 generateBoard.addEventListener('click', () => {
-    const currentBoard = document.querySelectorAll('.pixel');
+  const currentBoard = document.querySelectorAll('.pixel');
 
-    for (let index = 0; index < currentBoard.length; index += 1) {
-        if (currentBoard[index]) {
-            currentBoard[index].remove();
-        }
+  for (let index = 0; index < currentBoard.length; index += 1) {
+    if (currentBoard[index]) {
+      currentBoard[index].remove();
     }
+  }
 
-    const inputNumber = document.getElementById('board-size').value;
+  const inputNumber = document.getElementById('board-size').value;
 
-    verifyInputNumber(inputNumber);
+  verifyInputNumber(inputNumber);
 
-    localStorage.setItem('lastGrid', grid.style.width);
+  localStorage.setItem('lastGrid', grid.style.width);
 
-    localStorage.removeItem('drawing');
+  localStorage.removeItem('drawing');
 
-    paintPixel();
+  paintPixel();
 });
