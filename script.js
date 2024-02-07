@@ -1,4 +1,4 @@
-// Adiciona cores a paleta
+// ADICIONA CORES A PALETA
 
 const paletColors = document.querySelectorAll('.color');
 
@@ -7,72 +7,106 @@ paletColors[1].style.backgroundColor = 'green';
 paletColors[2].style.backgroundColor = 'blue';
 paletColors[3].style.backgroundColor = 'black';
 
-// Criação da "grade"
+// CRIA SECTION DO BOARD
 
 const grid = document.createElement('section');
-grid.id = 'pixel-board';
-grid.style.textAlign = 'center';
-grid.style.width = '210px';
-grid.style.margin = 'auto';
-grid.style.marginBottom = '0px';
-grid.style.marginTop = '0px';
-grid.style.padding = '0px';
 
-// const
+const firstGrid = () => {
+    grid.id = 'pixel-board';
+    grid.style.textAlign = 'center';
+    grid.style.width = '210px';
+    grid.style.margin = 'auto';
+    grid.style.marginBottom = '0px';
+    grid.style.marginTop = '0px';
+    grid.style.padding = '0px';
+};
+
+firstGrid();
+
+// CRIA O BOARD
 
 const gridValues = (number) => {
     for (let indexHeight = 0; indexHeight < number; indexHeight += 1) {
         for (let indexWidth = 0; indexWidth < number; indexWidth += 1) {
-          const gridPixels = document.createElement('div');
-        grid.style.width = `${42 * number}px`;
-        gridPixels.classList = 'pixel';
-        gridPixels.style.backgroundColor = 'white';
-        gridPixels.style.height = '40px';
-        gridPixels.style.width = '40px';
-        gridPixels.style.border = '1px black solid';
-        gridPixels.style.marginTop = '-4px';
-        gridPixels.style.display = 'inline-block';
-        grid.appendChild(gridPixels);
-    }
+            const gridPixels = document.createElement('div');
+            grid.style.width = `${42 * number}px`;
+            gridPixels.classList = 'pixel';
+            gridPixels.style.backgroundColor = 'white';
+            gridPixels.style.height = '40px';
+            gridPixels.style.width = '40px';
+            gridPixels.style.border = '1px black solid';
+            gridPixels.style.marginTop = '-4px';
+            gridPixels.style.display = 'inline-block';
+            grid.appendChild(gridPixels);
+        }
     }
     document.body.appendChild(grid);
 };
 
-gridValues(5);
+const saveLocalStorageGrid = () => {
+    if (localStorage.getItem('lastGrid')) {
+        grid.style.width = localStorage.getItem('lastGrid');
+    }
+};
 
-if (localStorage.getItem('drawing')) {
-    grid.innerHTML = localStorage.getItem('drawing');
-}
+const saveLocalStorageValues = () => {
+    if (localStorage.getItem('lastGridValues')) {
+        gridValues();
+        gridValues(localStorage.getItem('lastGridValues'));
+    } else {
+        gridValues(5);
+    }
+};
 
-// Função para selecionar a cor
+// localStorage.setItem('lastGrid', grid.style.width)
 
-const color = document.querySelectorAll('.color');
+saveLocalStorageValues();
 
-for (let index = 0; index < color.length; index += 1) {
-  color[index].addEventListener('click', (event) => {
-    const selectedColor = document.querySelector('.selected');
-    if (selectedColor) {
-      selectedColor.classList.remove('selected');
-      }
-      event.target.classList.add('selected');
-     });
-}
+saveLocalStorageGrid();
 
-// Alterar cor dos pixels selecionados
+const saveLocalStorageDrawing = () => {
+    if (localStorage.getItem('drawing')) {
+        grid.innerHTML = localStorage.getItem('drawing');
+    }
+};
 
-const pixelSelector = document.querySelectorAll('.pixel');
+saveLocalStorageDrawing();
 
-for (let index = 0; index < pixelSelector.length; index += 1) {
-    pixelSelector[index].addEventListener('click', (event) => {
-      const { target } = event;
-      const selectedColor = document.querySelector('.selected');
-      const currentColor = selectedColor.style.backgroundColor;
-      if (selectedColor) {
-          target.style.backgroundColor = currentColor;
-          localStorage.setItem('drawing', grid.innerHTML);
-        }
-    });
-}
+// FUNÇÃO PARA SELECIONAR COR
+
+const colorSelector = () => {
+    const color = document.querySelectorAll('.color');
+    for (let index = 0; index < color.length; index += 1) {
+        color[index].addEventListener('click', (event) => {
+            const selectedColor = document.querySelector('.selected');
+        if (selectedColor) {
+            selectedColor.classList.remove('selected');
+          }
+          event.target.classList.add('selected');
+         });
+    }
+};
+
+colorSelector();
+
+// ALTERA A COR DOS PIXELS SELECIONADOS
+
+const paintPixel = () => {
+    const pixelSelector = document.querySelectorAll('.pixel');
+    for (let index = 0; index < pixelSelector.length; index += 1) {
+        pixelSelector[index].addEventListener('click', (event) => {
+          const { target } = event;
+          const selectedColor = document.querySelector('.selected');
+          const currentColor = selectedColor.style.backgroundColor;
+          if (selectedColor) {
+              target.style.backgroundColor = currentColor;
+              localStorage.setItem('drawing', grid.innerHTML);
+            }
+        });
+    }
+};
+
+paintPixel();
 
 // Cria botão que limpa as cores já pintadas
 
@@ -99,6 +133,7 @@ resetGrid.addEventListener('click', () => {
     for (let index = 0; index < paintedPixels.length; index += 1) {
         paintedPixels[index].style.backgroundColor = 'white';
     }
+    localStorage.setItem('drawing', grid.innerHTML);
 });
 
 // Cria botão de cores aleatorias
@@ -129,14 +164,15 @@ randomizeColors.addEventListener('click', () => {
 
 // Adiciona o desenho no local storage
 
-// localStorage.
-
 // Altera tamanho da grid
 
 const gridSize = document.createElement('input');
 gridSize.style.width = '40px';
 gridSize.style.fontSize = '20px';
 gridSize.id = 'board-size';
+gridSize.value = '0';
+gridSize.type = 'number';
+gridSize.min = '1';
 gridSize.style.marginBottom = '8px';
 gridInfo.appendChild(gridSize);
 
@@ -148,16 +184,39 @@ gridInfo.appendChild(applyGridSize);
 
 const generateBoard = document.getElementById('generate-board');
 
+const verifyInputNumber = (currentNumber) => {
+    if (currentNumber === '0') {
+        window.alert('Board inválido!');
+    }
+
+    if (currentNumber < 5) {
+        gridValues(5);
+        localStorage.setItem('lastGridValues', '5');
+    } else if (currentNumber > 50) {
+        gridValues(50);
+        localStorage.setItem('lastGridValues', '50');
+    } else {
+        gridValues(currentNumber);
+        localStorage.setItem('lastGridValues', currentNumber);
+    }
+};
+
 generateBoard.addEventListener('click', () => {
     const currentBoard = document.querySelectorAll('.pixel');
 
-    for (let index = 0; index < grid.length; index += 1) {
+    for (let index = 0; index < currentBoard.length; index += 1) {
         if (currentBoard[index]) {
             currentBoard[index].remove();
         }
     }
 
     const inputNumber = document.getElementById('board-size').value;
-    
-    gridValues(inputNumber);
+
+    verifyInputNumber(inputNumber);
+
+    localStorage.setItem('lastGrid', grid.style.width);
+
+    localStorage.removeItem('drawing');
+
+    paintPixel();
 });
