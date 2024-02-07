@@ -18,21 +18,31 @@ grid.style.marginBottom = '0px';
 grid.style.marginTop = '0px';
 grid.style.padding = '0px';
 
-for (let indexHeight = 0; indexHeight < 5; indexHeight += 1) {
-  for (let indexWidth = 0; indexWidth < 5; indexWidth += 1) {
-    const gridPixels = document.createElement('div');
-    gridPixels.classList = 'pixel';
-    gridPixels.style.backgroundColor = 'white';
-    gridPixels.style.height = '40px';
-    gridPixels.style.width = '40px';
-    gridPixels.style.border = '1px black solid';
-    gridPixels.style.marginTop = '-4px';
-    gridPixels.style.display = 'inline-block';
-    grid.appendChild(gridPixels);
-  }
-}
+// const
 
-document.body.appendChild(grid);
+const gridValues = (number) => {
+    for (let indexHeight = 0; indexHeight < number; indexHeight += 1) {
+        for (let indexWidth = 0; indexWidth < number; indexWidth += 1) {
+          const gridPixels = document.createElement('div');
+        grid.style.width = `${42 * number}px`;
+        gridPixels.classList = 'pixel';
+        gridPixels.style.backgroundColor = 'white';
+        gridPixels.style.height = '40px';
+        gridPixels.style.width = '40px';
+        gridPixels.style.border = '1px black solid';
+        gridPixels.style.marginTop = '-4px';
+        gridPixels.style.display = 'inline-block';
+        grid.appendChild(gridPixels);
+    }
+    }
+    document.body.appendChild(grid);
+};
+
+gridValues(5);
+
+if (localStorage.getItem('drawing')) {
+    grid.innerHTML = localStorage.getItem('drawing');
+}
 
 // Função para selecionar a cor
 
@@ -44,24 +54,23 @@ for (let index = 0; index < color.length; index += 1) {
     if (selectedColor) {
       selectedColor.classList.remove('selected');
       }
-    event.target.classList.add('selected');
+      event.target.classList.add('selected');
      });
 }
 
 // Alterar cor dos pixels selecionados
-// Capturar dados da cor selecionada
-// Identificar o pixel especifico
-// Adicionar cor selecionada ao pixel selecionado
 
 const pixelSelector = document.querySelectorAll('.pixel');
 
 for (let index = 0; index < pixelSelector.length; index += 1) {
     pixelSelector[index].addEventListener('click', (event) => {
+      const { target } = event;
       const selectedColor = document.querySelector('.selected');
       const currentColor = selectedColor.style.backgroundColor;
       if (selectedColor) {
-        event.target.style.backgroundColor = currentColor;
-      }
+          target.style.backgroundColor = currentColor;
+          localStorage.setItem('drawing', grid.innerHTML);
+        }
     });
 }
 
@@ -73,6 +82,10 @@ const buttons = document.createElement('div');
 buttons.style.textAlign = 'center';
 buttons.style.marginBottom = '8px';
 header.appendChild(buttons);
+
+const gridInfo = document.createElement('div');
+gridInfo.style.textAlign = 'center';
+header.appendChild(gridInfo);
 
 const clearButton = document.createElement('button');
 clearButton.innerText = 'Limpar';
@@ -89,9 +102,6 @@ resetGrid.addEventListener('click', () => {
 });
 
 // Cria botão de cores aleatorias
-// Adiciona id "button-random-color"
-// Innertext "Cores aleatórias"
-// cores geradas aleatóriamente
 
 const randomColors = document.createElement('button');
 randomColors.id = 'button-random-color';
@@ -115,4 +125,39 @@ randomizeColors.addEventListener('click', () => {
     for (let index = 0; index < paletColors.length; index += 1) {
         paletColors[index].style.backgroundColor = randomizeRGB();
     }
+});
+
+// Adiciona o desenho no local storage
+
+// localStorage.
+
+// Altera tamanho da grid
+
+const gridSize = document.createElement('input');
+gridSize.style.width = '40px';
+gridSize.style.fontSize = '20px';
+gridSize.id = 'board-size';
+gridSize.style.marginBottom = '8px';
+gridInfo.appendChild(gridSize);
+
+const applyGridSize = document.createElement('button');
+applyGridSize.id = 'generate-board';
+applyGridSize.innerText = 'VQV';
+applyGridSize.style.marginLeft = '4px';
+gridInfo.appendChild(applyGridSize);
+
+const generateBoard = document.getElementById('generate-board');
+
+generateBoard.addEventListener('click', () => {
+    const currentBoard = document.querySelectorAll('.pixel');
+
+    for (let index = 0; index < grid.length; index += 1) {
+        if (currentBoard[index]) {
+            currentBoard[index].remove();
+        }
+    }
+
+    const inputNumber = document.getElementById('board-size').value;
+    
+    gridValues(inputNumber);
 });
